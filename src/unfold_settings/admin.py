@@ -15,7 +15,7 @@ from unfold_settings.models import (
 from unfold.admin import ModelAdmin, TabularInline
 from django.utils.translation import gettext_lazy as _
 from django import forms
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.contrib import admin
 
 
@@ -202,11 +202,11 @@ class SettingAdmin(ModelAdmin):
         for relation in Setting.VALUE_RELATIONS:
             try:
                 related_obj = getattr(obj, relation, None)
-                if related_obj is not None:
-                    if relation == "file_value" and not related_obj.value:
-                        continue
+                if related_obj is not None and not Setting._relation_is_empty(
+                    relation, related_obj
+                ):
                     return relation.replace("_value", "").upper()
-            except models.ObjectDoesNotExist:
+            except ObjectDoesNotExist:
                 continue
         return _("NOT SET")
 

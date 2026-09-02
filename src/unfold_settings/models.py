@@ -51,6 +51,23 @@ class Setting(models.Model):
         "file_value",
     ]
 
+    @staticmethod
+    def _relation_is_empty(relation, related_obj):
+        """
+        True when a value row physically exists but carries no real data.
+        Lets a stale row (e.g. a blanked string left behind when switching
+        the setting to another type) stop counting as an occupied type.
+        """
+        raw = related_obj.value
+        if relation == "file_value":
+            return not bool(raw)
+        if relation == "bool_value":
+            # False is a meaningful value, never "empty".
+            return False
+        if relation == "json_value":
+            return raw in (None, {}, [], "")
+        return raw is None or raw == ""
+
     @property
     def value(self):
         """
@@ -60,12 +77,9 @@ class Setting(models.Model):
         for relation in self.VALUE_RELATIONS:
             try:
                 related_obj = getattr(self, relation, None)
-                if related_obj is not None:
-                    # If it's a file field, check if a file is uploaded
-                    if relation == "file_value":
-                        # If no file, return None to avoid ValueError
-                        return related_obj.value if bool(related_obj.value) else None
-
+                if related_obj is not None and not self._relation_is_empty(
+                    relation, related_obj
+                ):
                     return related_obj.value
             except models.ObjectDoesNotExist:
                 # If the OneToOne relation is not created in the DB, Django will throw this exception.
@@ -88,10 +102,9 @@ class Setting(models.Model):
         for relation in self.VALUE_RELATIONS:
             try:
                 related_obj = getattr(self, relation, None)
-                if related_obj is not None:
-                    # Specific edge-case validation for files inside forms
-                    if relation == "file_value" and not related_obj.value:
-                        continue
+                if related_obj is not None and not self._relation_is_empty(
+                    relation, related_obj
+                ):
                     filled_relations.append(relation)
             except models.ObjectDoesNotExist:
                 continue
