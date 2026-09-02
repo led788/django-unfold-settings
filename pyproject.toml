@@ -39,3 +39,6 @@ path = "src/unfold_settings/__init__.py"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/unfold_settings"]
+
+[tool.hatch.build.targets.sdist]
+only-include = ["src/unfold_settings", "README.md", "pyproject.toml"]
