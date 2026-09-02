@@ -6,7 +6,7 @@ A reusable Django package for managing global application settings with multiple
 
 ## Features
 
-- **Strict Type Validation:** EAV-inspired architecture with dedicated tables for each data type (`string`, `text`, `html`, `bool`, `json`, `date`, `datetime`, `file`).
+- **Strict Type Validation:** EAV-inspired architecture with dedicated tables for each data type (`string`, `text`, `html`, `int`, `float`, `bool`, `json`, `date`, `datetime`, `file`).
 - **Unfold Admin Integration:** Responsive UI using Unfold `TabularInline` components.
 - **High Performance:** Optimized querying fetches all configs in exactly **1 SQL query**.
 - **Automated Caching:** Built-in cache layer with dynamic TTL and instant invalidation via signals.

@@ -6,6 +6,8 @@ from unfold_settings.models import (
     StringValue,
     TextValue,
     HTMLValue,
+    IntegerValue,
+    FloatValue,
     BoolValue,
     JSONValue,
     DateValue,
@@ -26,6 +28,8 @@ def clear_settings_cache_on_parent_change(sender, instance, **kwargs):
 @receiver([post_save, post_delete], sender=StringValue)
 @receiver([post_save, post_delete], sender=TextValue)
 @receiver([post_save, post_delete], sender=HTMLValue)
+@receiver([post_save, post_delete], sender=IntegerValue)
+@receiver([post_save, post_delete], sender=FloatValue)
 @receiver([post_save, post_delete], sender=BoolValue)
 @receiver([post_save, post_delete], sender=JSONValue)
 @receiver([post_save, post_delete], sender=DateValue)

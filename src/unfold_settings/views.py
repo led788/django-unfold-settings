@@ -30,6 +30,8 @@ class SettingsView(View):
             "string_value",
             "text_value",
             "html_value",
+            "int_value",
+            "float_value",
             "bool_value",
             "json_value",
             "date_value",

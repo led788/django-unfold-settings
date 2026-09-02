@@ -4,6 +4,8 @@ from unfold_settings.models import (
     StringValue,
     TextValue,
     HTMLValue,
+    IntegerValue,
+    FloatValue,
     BoolValue,
     JSONValue,
     DateValue,
@@ -37,6 +39,8 @@ class BaseSettingValueFormSet(forms.BaseInlineFormSet):
             "StringValue": _("String Value"),
             "TextValue": _("Text Value"),
             "HTMLValue": _("HTML Value"),
+            "IntegerValue": _("Integer Value"),
+            "FloatValue": _("Float Value"),
             "BoolValue": _("Boolean Value"),
             "JSONValue": _("JSON Data"),
             "DateValue": _("Date Value"),
@@ -115,6 +119,20 @@ class HTMLValueInline(TabularInline):
     formset = BaseSettingValueFormSet
 
 
+class IntegerValueInline(TabularInline):
+    model = IntegerValue
+    fields = ["value"]
+    max_num = 1
+    formset = BaseSettingValueFormSet
+
+
+class FloatValueInline(TabularInline):
+    model = FloatValue
+    fields = ["value"]
+    max_num = 1
+    formset = BaseSettingValueFormSet
+
+
 class BoolValueInline(TabularInline):
     model = BoolValue
     fields = ["value"]
@@ -164,6 +182,8 @@ class SettingAdmin(ModelAdmin):
         StringValueInline,
         TextValueInline,
         HTMLValueInline,
+        IntegerValueInline,
+        FloatValueInline,
         BoolValueInline,
         JSONValueInline,
         DateValueInline,

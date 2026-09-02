@@ -42,6 +42,8 @@ class Setting(models.Model):
         "string_value",
         "text_value",
         "html_value",
+        "int_value",
+        "float_value",
         "bool_value",
         "json_value",
         "date_value",
@@ -141,6 +143,28 @@ class HTMLValue(models.Model):
     class Meta:
         verbose_name = _("HTML Value")
         verbose_name_plural = _("HTML Values")
+
+
+class IntegerValue(models.Model):
+    setting = models.OneToOneField(
+        Setting, on_delete=models.CASCADE, related_name="int_value"
+    )
+    value = models.BigIntegerField(_("Integer"), null=True, blank=True)
+
+    class Meta:
+        verbose_name = _("Integer Value")
+        verbose_name_plural = _("Integer Values")
+
+
+class FloatValue(models.Model):
+    setting = models.OneToOneField(
+        Setting, on_delete=models.CASCADE, related_name="float_value"
+    )
+    value = models.FloatField(_("Float"), null=True, blank=True)
+
+    class Meta:
+        verbose_name = _("Float Value")
+        verbose_name_plural = _("Float Values")
 
 
 class BoolValue(models.Model):
